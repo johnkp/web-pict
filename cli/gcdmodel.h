@@ -54,6 +54,7 @@ public:
     void PrintOutputJson( CModelData& modelData, std::wostream& wout );
     void PrintConstraintWarnings();
     void PrintStatistics();
+    void GetConstraintWarnings(std::wostringstream&);
 };
 
 //

@@ -76,4 +76,7 @@ To build pict via emscripten run
 
     emcmake cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
     
-    cmake --build cli
+    cmake --build
+
+    cp cli/pict.js web-pict/src/assets/pict.js
+    cp cli/pict.wasm web-pict/src/assets/pict.wasm

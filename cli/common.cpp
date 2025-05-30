@@ -56,6 +56,52 @@ void PrintMessage
     wcerr << endl;
 }
 
+void WriteMessage
+    (
+    IN MsgType  type,
+    IN const wchar_t* text1,
+    wostringstream& output
+    )
+{
+    switch ( type )
+    {
+        case InputDataError:
+            output << L"Input Error: ";
+            break;
+
+        case InputDataWarning:
+            output << L"Input Warning: ";
+            break;
+
+        case GcdError:
+            output << L"Generation Error: ";
+            break;
+
+        case RowSeedsError:
+            output << L"Seeding Error: ";
+            break;
+
+        case SystemError:
+            output << L"System Error: ";
+            break;
+
+        case ConstraintsWarning:
+            output << L"Constraints Warning: ";
+            break;
+
+        case RowSeedsWarning:
+            output << L"Seeding Warning: ";
+            break;
+
+        default:
+            assert( false );
+            break;
+    }
+
+    output << text1;
+    output << endl;
+}
+
 //
 //
 //

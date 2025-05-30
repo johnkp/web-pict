@@ -21,6 +21,7 @@ set(pict_cli_inc
   ${CMAKE_CURRENT_SOURCE_DIR}/resource.h
   ${CMAKE_CURRENT_SOURCE_DIR}/strings.h
   ${CMAKE_CURRENT_SOURCE_DIR}/ver.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/jsbridge.h
 )
 
 set(pict_cli_src
@@ -36,6 +37,7 @@ set(pict_cli_src
   ${CMAKE_CURRENT_SOURCE_DIR}/mparser.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/pict.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/strings.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/jsbridge.cpp
 )
 
 set(pict_cli_dll_src

@@ -1,6 +1,8 @@
 #include "cmdline.h"
 #include "gcdexcl.h"
 #include "gcdmodel.h"
+#include "jsbridge.h"
+
 using namespace std;
 
 namespace pictcli_gcd
@@ -390,8 +392,8 @@ void CResult::PrintOutputJson( CModelData& modelData, wostream& wout )
         for( size_t j = 0; j < valuesSize; j++ )
         {
             wout << "    {" << endl;
-            wout << "    " << "  \"key\": \"" << modelData.Parameters[j].Name << "\"," << endl;
-            wout << "    " << "  \"value\": \"" << TestCases[i].Values[j] << "\"" << endl;
+            wout << "    " << "  \"key\": \"" << escape_json ( modelData.Parameters[j].Name ) << "\"," << endl;
+            wout << "    " << "  \"value\": \"" << escape_json ( TestCases[i].DecoratedValues[j] ) << "\"" << endl;
             wout << "    }";
             if( j < valuesSize - 1 )
             {
@@ -427,6 +429,25 @@ void CResult::PrintConstraintWarnings()
     for( auto & warn : SolverWarnings )
     {
         PrintMessage( ConstraintsWarning, warn.c_str() );
+    }
+}
+
+void CResult::GetConstraintWarnings(wostringstream& result)
+{
+    ;
+    if( SingleItemExclusions.size() > 0 )
+    {
+        wstring text = L"Restrictive constraints. Output will not contain following values: ";
+        for( auto item : SingleItemExclusions )
+        {
+            text += L"\n  " + item;
+        }
+        WriteMessage( ConstraintsWarning, text.c_str(), result );
+    }
+
+    for( auto & warn : SolverWarnings )
+    {
+        WriteMessage( ConstraintsWarning, warn.c_str(), result );
     }
 }
 

@@ -528,6 +528,92 @@ bool CModelData::ReadModel( const wstring& filePath )
     return( true );
 }
 
+bool CModelData::readModelFromString( const wstring& model )
+{
+    wstringstream stringstream(model);
+    wstring line;
+
+    // read definition of parameters
+    bool firstLine = true;
+    while( true )
+    {
+        // skip not important stuff
+        if ( lineIsEmpty( line ) || lineIsComment( line ))
+        {
+            if ( ! getline(stringstream, line, L'\n')) return( true );
+            continue;
+        }
+
+        if ( firstLine )
+        {
+            m_encoding = getEncodingType( line );
+            if ( m_encoding != EncodingType::ANSI
+              && m_encoding != EncodingType::UTF8 )
+            {
+                PrintMessage( InputDataError, L"Only ANSI and UTF-8 are supported" );
+                return( false );
+            }
+            firstLine = false;
+        }
+
+        // continue reading until a submodel/cluster or a constraint
+        if ( lineIsParamSet( line ) || lineIsConstraint( line )) break;
+
+        if ( ! readParameter( line ))          return( false );
+        if ( ! getline(stringstream, line, L'\n')) return( true );
+    }
+
+    // read submodels
+    if ( lineIsParamSet( line ))
+    {
+        while( true )
+        {
+            // skip not important stuff
+            if ( lineIsEmpty( line ) || lineIsComment( line ))
+            {
+                if ( ! getline(stringstream, line, L'\n')) return( true );
+                continue;
+            }
+
+            // continue reading until a constraint
+            if ( lineIsConstraint( line )) break;
+
+            if ( ! readParamSet( line ))           return( false );
+            if ( ! getline(stringstream, line, L'\n')) return( true );
+        }
+    }
+
+    // anything that's left is constraints
+    while( true )
+    {
+        // if only a line is not empty or not a comment,
+        //   it's got to be a part of constraints definition
+        if ( ! ( lineIsEmpty( line ) || lineIsComment( line )))
+        {
+            ConstraintPredicates += line;
+        }
+        if ( ! getline(stringstream, line, L'\n')) return( true );
+    }
+
+    return( true );
+}
+
+
+bool CModelData::ReadModelFromString( const wstring& model )
+{
+    if( !readModelFromString( model ))
+    {
+        return( false );
+    }
+
+    if( !ValidateParams() )
+    {
+        return( false );
+    }
+
+    return( true );
+}
+
 //
 //
 //

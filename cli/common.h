@@ -41,6 +41,14 @@ void PrintMessage
     IN const wchar_t* text3 = nullptr
     );
 
+void WriteMessage
+    (
+    IN MsgType  type,
+    IN const wchar_t* text1,
+    std::wostringstream& out
+    );
+
+
 //
 //
 //

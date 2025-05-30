@@ -135,6 +135,7 @@ public:
 
     bool ReadModel      ( const std::wstring& filePath );
     bool ReadRowSeedFile( const std::wstring& filePath );
+    bool ReadModelFromString( const std::wstring& model );
 
     size_t TotalParameterCount() { return(Parameters.size()); }
     size_t ResultParameterCount();
@@ -155,6 +156,7 @@ public:
 
     void PrintModelContents( std::wstring title );
     void PrintStatistics();
+    size_t GetTotalCombinations();
     
 private:
     bool            m_hasNegativeValues;
@@ -164,6 +166,7 @@ private:
 
     void readFile                  ( const std::wstring& filePath );
     bool readModel                 ( const std::wstring& filePath );
+    bool readModelFromString       ( const std::wstring& model );
     bool readParameter             ( std::wstring& line );
     bool readParamSet              ( std::wstring& line );
     void getUnmatchedParameterNames( wstrings& paramsOfSubmodel, wstrings& unmatchedParams );

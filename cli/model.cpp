@@ -264,6 +264,10 @@ void CModelData::PrintStatistics()
     }
 }
 
+size_t CModelData::GetTotalCombinations() {
+    return( m_totalCombinations );
+}
+
 //
 //
 //
