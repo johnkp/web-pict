@@ -41,8 +41,27 @@ set(PICT_BUILD_OPTIONS PictBuildOptions)
 add_library(${PICT_BUILD_OPTIONS}
   INTERFACE
 )
-
-if (MSVC)
+if (EMSCRIPTEN)
+  target_compile_options(${PICT_BUILD_OPTIONS}
+    INTERFACE
+      -fexceptions
+      -pedantic
+      -Wall
+      -Werror
+      -Wno-unused-variable
+  )
+  target_link_options(${PICT_BUILD_OPTIONS}
+    INTERFACE
+      -fexceptions
+      -sMODULARIZE=1
+      -sEXPORT_ES6=1
+      -sENVIRONMENT=web
+      -sINVOKE_RUN=0
+      -sDISABLE_EXCEPTION_CATCHING=0
+      #-sEXCEPTION_DEBUG
+      --bind
+  )
+elseif (MSVC)
   # Enable multi-threaded build with MSVC
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
   target_compile_options(${PICT_BUILD_OPTIONS}

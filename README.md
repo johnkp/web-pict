@@ -69,3 +69,11 @@ To use your own models, please execute
 
     podman run -it --rm -v ./<local-dir>:/var/pict:Z pict:latest <your-model-file> [<pict-options>]
 
+
+## Emscripten build
+
+To build pict via emscripten run
+
+    emcmake cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+    
+    cmake --build cli
